@@ -1,0 +1,52 @@
+CREATE DATABASE IF NOT EXISTS `spotitube` DEFAULT CHARACTER SET utf8 ;
+USE `spotitube` ;
+
+-- -----------------------------------------------------
+-- Table `spotitube`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spotitube`.`user` (
+  `iduser` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
+  `hash` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`iduser`),
+  UNIQUE INDEX `iduser_UNIQUE` (`iduser` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `spotitube`.`playlist`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spotitube`.`playlist` (
+  `idplaylist` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(200) NOT NULL,
+  `img` VARCHAR(225) NOT NULL,
+  `user_iduser` INT NOT NULL,
+  PRIMARY KEY (`idplaylist`),
+  UNIQUE INDEX `idplaylist_UNIQUE` (`idplaylist` ASC),
+  INDEX `fk_playlist_user_idx` (`user_iduser` ASC),
+  CONSTRAINT `fk_playlist_user`
+    FOREIGN KEY (`user_iduser`)
+    REFERENCES `spotitube`.`user` (`iduser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `spotitube`.`songs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spotitube`.`songs` (
+  `idsongs` INT NOT NULL AUTO_INCREMENT,
+  `youtubeID` VARCHAR(45) NOT NULL,
+  `artiest` VARCHAR(45) NOT NULL,
+  `uploadedBy` VARCHAR(45) NOT NULL,
+  `playlist_idplaylist` INT NOT NULL,
+  PRIMARY KEY (`idsongs`, `playlist_idplaylist`),
+  INDEX `fk_songs_playlist1_idx` (`playlist_idplaylist` ASC),
+  CONSTRAINT `fk_songs_playlist1`
+    FOREIGN KEY (`playlist_idplaylist`)
+    REFERENCES `spotitube`.`playlist` (`idplaylist`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;

@@ -23,8 +23,6 @@ require '../include/header.php';
                     $playlistName = $test['name'];
                     $playlistImage = $test['img'];
                     $playlistId = $test['idplaylist'];
-
-
                     echo "
                             <tr>
                             <td>$playlistName</td>
